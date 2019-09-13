@@ -43,7 +43,7 @@ if operation == "get":
             cmd,
             shell=True
         )
-        find_path = _find_path.replace(password_store_path, '').strip('\n')
+        find_path = _find_path.decode('utf8').replace(password_store_path, '').strip('\n')
 
     client = subprocess.check_output(
         [
