@@ -2,7 +2,7 @@
 A git credential helper to integrate with pass
 
 # Requirements
-* python 2
+* Python 2.7/3.7+
 * pass
 
 # Installation

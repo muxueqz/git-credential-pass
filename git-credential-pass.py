@@ -3,7 +3,11 @@ import sys
 import re
 import os
 import subprocess
-import ConfigParser
+try:
+    import ConfigParser
+except:
+    import configparser as ConfigParser
+
 config = ConfigParser.ConfigParser()
 home_path = os.getenv('HOME')
 config_path = os.path.join(home_path, '.config/git-credential-pass.ini')
@@ -48,7 +52,7 @@ if operation == "get":
         find_path,
         ]
     )
-    extractor = client.split('\n')
+    extractor = client.decode('utf8').split('\n')
     repo_logins = {}
     repo_logins['login'] = ': '.join(extractor[1].split(': ')[1:])
     repo_logins['password'] = extractor[0]
