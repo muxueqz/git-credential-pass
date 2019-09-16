@@ -3,6 +3,8 @@ import sys
 import re
 import os
 import subprocess
+import logging
+
 try:
     import ConfigParser
 except:
@@ -16,6 +18,10 @@ config.read(config_path)
 repo_info_regex = r'(\S+)=(.*)'
 password_store_path = os.path.join(home_path, '.password-store')
 
+FORMAT = '%(asctime)-15s %(message)s'
+logging.basicConfig(format=FORMAT, filename='/tmp/git-credential-pass.log')
+logger = logging.getLogger('base')
+
 operation = sys.argv[1]
 if operation != "get":
     sys.exit(1)
@@ -23,6 +29,7 @@ if operation != "get":
 
 repo_info_string = sys.stdin.read()
 repo_info = dict(re.findall(repo_info_regex, repo_info_string))
+logger.warning('repo_info: %s', repo_info)
 
 if 'host' not in repo_info:
     sys.stderr.write("Host not set\n")
