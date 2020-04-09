@@ -52,13 +52,29 @@ if operation == "get":
         )
         find_path = _find_path.decode('utf8').replace(password_store_path, '').strip('\n')
 
-    client = subprocess.check_output(
-        [
-        'pass',
-        'show',
-        find_path,
-        ]
-    )
+    try:
+        client = subprocess.check_output(
+            [
+            'pass',
+            'show',
+            find_path,
+            ]
+        )
+    except subprocess.CalledProcessError:
+        subprocess.check_output(
+            [
+            'xterm', '-e',
+            'pass show "%s"' % find_path,
+            ]
+        )
+        client = subprocess.check_output(
+            [
+            'pass',
+            'show',
+            find_path,
+            ]
+        )
+
     extractor = client.decode('utf8').split('\n')
     repo_logins = {}
     repo_logins['login'] = ': '.join(extractor[1].split(': ')[1:])
